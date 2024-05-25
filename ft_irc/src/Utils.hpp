@@ -6,7 +6,7 @@
 /*   By: shhuang <dsheng1993@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:40:46 by mneri             #+#    #+#             */
-/*   Updated: 2024/05/25 23:36:29 by shhuang          ###   ########.fr       */
+/*   Updated: 2024/05/26 00:21:50 by shhuang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,3 @@
 
 int checkPort(char *port);
 bool isValidNick(std::string nick);
-std::string toLower(const std::string& str);

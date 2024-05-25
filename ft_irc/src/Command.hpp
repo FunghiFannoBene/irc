@@ -12,6 +12,7 @@ public:
     Command();
 
     void exec(std::vector<std::string> cmd, T* instance, int fd);
+	std::string toLower(const std::string& str);
 };
 
 #include "Command.tpp"
