@@ -6,7 +6,7 @@
 /*   By: shhuang <dsheng1993@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 16:32:20 by mneri             #+#    #+#             */
-/*   Updated: 2024/05/25 23:46:49 by shhuang          ###   ########.fr       */
+/*   Updated: 2024/05/27 22:52:14 by shhuang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,37 +221,8 @@ void Server::ReceiveNewData(int fd)
 
 void Server::parseCommand(int fd, std::vector<std::string> cmd)
 {
-
 	Command<Server> command;
-	command.exec(cmd, this, fd);
-	
-	// if((cmd[0] == "PASS" || cmd[0] == "pass"))
-	// 	PASS(fd, cmd);
-	// else if((cmd[0] == "NICK" || cmd[0] == "nick"))
-	// 	NICK(fd, cmd);
-	// else if((cmd[0] == "USER" || cmd[0] == "user"))
-	// 	USER(fd, cmd);
-	// else if(getClient(fd)->getRegistered() == true)
-	// {
-	// 	if((cmd[0] == "JOIN" || cmd[0] == "join"))
-	// 		JOIN(fd, cmd);
-	// 	if((cmd[0] == "MODE" || cmd[0] == "mode"))
-	// 		MODE(fd, cmd);
-	// 	if((cmd[0] == "KICK" || cmd[0] == "kick"))
-	// 		KICK(fd, cmd);
-	// 	if((cmd[0] == "INVITE" || cmd[0] == "invite"))
-	// 		INVITE(fd, cmd);
-	// 	if((cmd[0] == "TOPIC" || cmd[0] == "topic"))
-	// 		TOPIC(fd, cmd);		
-	// 	if((cmd[0] == "PART" || cmd[0] == "part"))
-	// 		PART(fd, cmd);
-	// 	if((cmd[0] == "QUIT" || cmd[0] == "quit"))
-	// 		QUIT(fd, cmd);
-	// 	if((cmd[0] == "PRIVMSG" || cmd[0] == "privmsg"))
-	// 		PRIVMSG(fd, cmd);	
-	// }
-	// else
-	// 	ERR_NOTREGISTERED(getClient(fd));
+	command.exec(cmd, this, fd, getClient(fd)->getRegistered());
 }
 
 void Server::PASS(int fd, std::vector<std::string> cmd)

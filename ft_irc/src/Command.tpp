@@ -3,7 +3,8 @@
 #include <algorithm>
 
 template<typename T>
-Command<T>::Command() {
+Command<T>::Command()
+{
     commandMap["pass"] = &T::PASS;
     commandMap["nick"] = &T::NICK;
     commandMap["user"] = &T::USER;
@@ -17,17 +18,16 @@ Command<T>::Command() {
 }
 
 template<typename T>
-void Command<T>::exec(std::vector<std::string> cmd, T* instance, int fd)
+void Command<T>::exec(std::vector<std::string> cmd, T* instance, int fd, bool registered)
 {
-    try
+	lowerCaseCommand = toLower(cmd[0]);
+	if(registered || (!registered && (lowerCaseCommand == "pass" || lowerCaseCommand == "nick" || lowerCaseCommand == "user")))
 	{
-        CommandPtr func = commandMap.at(toLower(cmd[0]));
-        (instance->*func)(fd, cmd);
-    }
-	catch (const std::out_of_range&)
-	{
-        ERR_NOTREGISTERED(instance->getClient(fd));
-    }
+		CommandPtr func = commandMap.at(lowerCaseCommand);
+			(instance->*func)(fd, cmd);
+	}
+	else
+		ERR_NOTREGISTERED(instance->getClient(fd));
 }
 
 template<typename T>
@@ -36,4 +36,10 @@ std::string Command<T>::toLower(const std::string& str)
     std::string lowerStr = str;
     std::transform(lowerStr.begin(), lowerStr.end(), lowerStr.begin(), static_cast<int(*)(int)>(std::tolower));
     return lowerStr;
+}
+
+
+template<typename T>
+Command<T>::~Command()
+{
 }

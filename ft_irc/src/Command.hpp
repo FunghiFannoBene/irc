@@ -4,15 +4,18 @@
 #include <vector>
 
 template<typename T>
-class Command {
-public:
-    typedef void (T::*CommandPtr)(int, std::vector<std::string>);
-    std::map<std::string, CommandPtr> commandMap;
+class Command
+{
+	private:
+		typedef void (T::*CommandPtr)(int, std::vector<std::string>);
+		std::map<std::string, CommandPtr> commandMap;
+		std::string lowerCaseCommand;
 
-    Command();
-
-    void exec(std::vector<std::string> cmd, T* instance, int fd);
-	std::string toLower(const std::string& str);
+	public:
+		Command();
+		void exec(std::vector<std::string> cmd, T* instance, int fd, bool registered);
+		std::string toLower(const std::string& str);
+		~Command();
 };
 
 #include "Command.tpp"
