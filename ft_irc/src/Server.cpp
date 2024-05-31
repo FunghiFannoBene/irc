@@ -6,7 +6,7 @@
 /*   By: shhuang <dsheng1993@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 16:32:20 by mneri             #+#    #+#             */
-/*   Updated: 2024/05/31 21:30:32 by shhuang          ###   ########.fr       */
+/*   Updated: 2024/06/01 00:57:01 by shhuang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,28 +223,32 @@ void Server::ReceiveNewData(int fd)
 	memset(buff, 0, sizeof(buff));
 	Client *client = getClient(fd);
 	ssize_t bytes = recv(fd, buff, sizeof(buff) - 1, 0);
+	std::string finalBuff;
+	
 	if(bytes <= 0)
 	{
 		std::cout << RED << "Client " << client->getNick() << " <" << client->getFd() << "> " << " disconnected\n" << WHITE;
 		removeClient(fd);
 		close(fd);
-		
 	}
 	else
 	{
-		client->setBuff(buff);
+		finalBuff.append(buff, bytes);
+		memset(buff, 0, sizeof(buff));
+		while((bytes = recv(fd, buff, sizeof(buff) - 1, 0)) > 0)
+		{
+			std::cout << "\n\n\n\n\n\n" << buff << "\n\n\n\n\n\n" << std::endl;
+			finalBuff.append(buff, bytes);
+			memset(buff, 0, sizeof(buff));
+			usleep(10000);
+		}
+		client->setBuff(finalBuff);
 		if(client->getBuff().find_first_of("\r\n") == std::string::npos)
 			return;
-		tmp = truncBuffEnd(buff);
+		tmp = truncBuffEnd(finalBuff);
 		cmd = splitBuffCommand(tmp);
-		if (!cmd.empty())
-        {
-            parseCommand(fd, cmd);
-        }
-        else
-        {
-            std::cerr << "Error: cmd is empty" << std::endl;
-        }
+		if(!cmd.empty())
+			parseCommand(fd, cmd);
 	}
 }
 
