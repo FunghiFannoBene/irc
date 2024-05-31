@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mneri <mneri@student.42.fr>                +#+  +:+       +#+        */
+/*   By: shhuang <dsheng1993@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 15:59:03 by mneri             #+#    #+#             */
-/*   Updated: 2024/05/22 17:01:08 by mneri            ###   ########.fr       */
+/*   Updated: 2024/05/29 23:26:20 by shhuang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ Client *Channel::getClient(int fd)
 	std::vector<Client>::iterator it;
 	if(clients.empty())
 		return NULL;
-	for(it= clients.begin(); it != clients.end(); it++)
+	for(it= clients.begin(); it != clients.end(); ++it)
 	{
 		if(it->getFd() == fd)
 			return &(*it);
@@ -58,7 +58,7 @@ Client *Channel::getClient(int fd)
 Client *Channel::getAdmins(int fd)
 {
 	std::vector<Client>::iterator it;
-	for(it = admins.begin(); it != admins.end(); it++)
+	for(it = admins.begin(); it != admins.end(); ++it)
 	{
 		if(it->getFd() == fd)
 			return &(*it);
@@ -69,12 +69,12 @@ Client *Channel::getAdmins(int fd)
 Client *Channel::getClientInChannel(int fd)
 {	
 	std::vector<Client>::iterator it;
-	for(it = admins.begin(); it != admins.end(); it++)
+	for(it = admins.begin(); it != admins.end(); ++it)
 	{
 		if(it->getFd() == fd)
 			return &(*it);
 	}
-	for(it= clients.begin(); it != clients.end(); it++)
+	for(it= clients.begin(); it != clients.end(); ++it)
 	{
 		if(it->getFd() == fd)
 			return &(*it);
@@ -86,7 +86,7 @@ Client *Channel::getClientInChannel(int fd)
 Client *Channel::getInvited(int fd)
 {
 	std::vector<Client>::iterator it;
-	for(it = invited.begin(); it != invited.end(); it++)
+	for(it = invited.begin(); it != invited.end(); ++it)
 	{
 		if(it->getFd() == fd)
 			return &(*it);
@@ -158,7 +158,7 @@ void Channel::setClientcap(int cap)
 void Channel::sendToChannel(std::string msg)
 {
 	std::vector<Client>::iterator it;
-	for(it = clients.begin(); it != clients.end(); it++)
+	for(it = clients.begin(); it != clients.end(); ++it)
 	{
 		sendMsg(&(*it), msg);
 	}
@@ -183,7 +183,7 @@ void Channel::remAdmins(int fd)
 {
 	std::vector<Client>::iterator it;
 
-	for(it = admins.begin(); it != admins.end(); it++)
+	for(it = admins.begin(); it != admins.end(); ++it)
 	{
 		if(it->getFd() == fd)
 		{	
@@ -197,7 +197,7 @@ void Channel::remClients(int fd)
 {
 	std::vector<Client>::iterator it;
 
-	for(it = clients.begin(); it != clients.end(); it++)
+	for(it = clients.begin(); it != clients.end(); ++it)
 	{
 		if(it->getFd() == fd)
 		{	
@@ -211,7 +211,7 @@ void Channel::remInvited(int fd)
 {
 	std::vector<Client>::iterator it;
 
-	for(it = invited.begin(); it != invited.end(); it++)
+	for(it = invited.begin(); it != invited.end(); ++it)
 	{
 		if(it->getFd() == fd)
 		{	
@@ -224,7 +224,7 @@ void Channel::remInvited(int fd)
 Client *Channel::getAdminbyName(std::string adminName)
 {
 	std::vector<Client>::iterator it;
-	for(it = admins.begin(); it != admins.end(); it++)
+	for(it = admins.begin(); it != admins.end(); ++it)
 	{
 		if(it->getNick() == adminName)
 			return &(*it);
@@ -236,7 +236,7 @@ Client *Channel::getAdminbyName(std::string adminName)
 Client *Channel::getClientbyName(std::string clientName)
 {
 	std::vector<Client>::iterator it;
-	for(it = clients.begin(); it != clients.end(); it++)
+	for(it = clients.begin(); it != clients.end(); ++it)
 	{
 		if(it->getNick() == clientName)
 			return &(*it);

@@ -6,7 +6,7 @@
 /*   By: shhuang <dsheng1993@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 16:29:06 by mneri             #+#    #+#             */
-/*   Updated: 2024/05/26 00:06:06 by shhuang          ###   ########.fr       */
+/*   Updated: 2024/05/29 23:39:39 by shhuang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,11 @@ class Server
 		std::vector<Client> clients;
 		std::vector<Channel> channels;
 		std::vector<std::string> _cmd;
-	public:
 		Server();
-		void ServerInit(int port, std::string pass);
+	public:
+		~Server();
+		Server(const int &port, char *pass);
+		void ServerInit();
 		void SerSocket();
 		void AcceptNewClient();
 		void ReceiveNewData(int fd);
@@ -76,5 +78,4 @@ class Server
 		void PART(int fd, std::vector<std::string> cmd);
 		void QUIT(int fd, std::vector<std::string> cmd);
 		void PRIVMSG(int fd, std::vector<std::string> cmd);
-
 };

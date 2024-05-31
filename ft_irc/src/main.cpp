@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: teo <teo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: shhuang <dsheng1993@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:47:36 by mneri             #+#    #+#             */
-/*   Updated: 2024/05/10 13:50:23 by teo              ###   ########.fr       */
+/*   Updated: 2024/05/28 22:47:49 by shhuang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,6 @@ int main(int argc, char **argv)
 {
 	if(argc == 3)
 	{
-		Server ser = Server();
-		int port = checkPort(argv[1]);
-		if(!port)
-		{
-			std::cout << "Invalid port\n";
-			return 0;
-		}	
-		try
-		{
-			signal(SIGINT, Server::SignalHandler);
-			signal(SIGQUIT, Server::SignalHandler);
-			ser.ServerInit(port, argv[2]);
-		}
-		catch(const std::exception& e)
-		{
-			ser.CloseFds();
-			std::cerr << e.what() << '\n';
-		}
-		std::cout << YELLOW << "The Server is Offline" << std::endl;
+		Server ser = Server(checkPort(std::atoi(argv[1])), argv[2]);
 	}
 }

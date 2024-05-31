@@ -1,5 +1,6 @@
 #include "Command.hpp"
 #include "Server.hpp"
+#include "Error.hpp"
 #include <algorithm>
 
 template<typename T>
@@ -23,8 +24,15 @@ void Command<T>::exec(std::vector<std::string> cmd, T* instance, int fd, bool re
 	lowerCaseCommand = toLower(cmd[0]);
 	if(registered || (!registered && (lowerCaseCommand == "pass" || lowerCaseCommand == "nick" || lowerCaseCommand == "user")))
 	{
-		CommandPtr func = commandMap.at(lowerCaseCommand);
+		try
+		{
+			CommandPtr func = commandMap.at(lowerCaseCommand);
 			(instance->*func)(fd, cmd);
+		}
+		catch (const std::out_of_range&)
+        {
+            ERR_UNKNOWNCOMMAND(instance->getClient(fd), cmd[0]);
+        }
 	}
 	else
 		ERR_NOTREGISTERED(instance->getClient(fd));

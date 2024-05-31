@@ -6,7 +6,7 @@
 /*   By: shhuang <dsheng1993@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 16:32:20 by mneri             #+#    #+#             */
-/*   Updated: 2024/05/27 22:52:14 by shhuang          ###   ########.fr       */
+/*   Updated: 2024/05/31 21:30:32 by shhuang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,31 @@ bool Server::_signal = false;
 
 Server::Server()
 {
+}
+
+Server::~Server()
+{
+	std::cout << YELLOW << "The Server is Offline" << std::endl;
+}
+
+Server::Server(const int &port, char *pass) : _port(port), _password(pass)
+{
+	if(port)
+	{	
+		try
+		{
+			signal(SIGINT, Server::SignalHandler);
+			signal(SIGQUIT, Server::SignalHandler);
+			ServerInit();
+		}
+		catch(const std::exception& e)
+		{
+			CloseFds();
+			std::cerr << e.what() << '\n';
+		}
+	}
+	else
+		std::cout << "Invalid port." << std::endl;
 }
 
 void Server::SignalHandler(int signum)
@@ -56,17 +81,14 @@ void Server::SerSocket()
 		throw(std::runtime_error("failed to bind socket"));
 	if(listen(_serverSocket, SOMAXCONN) == -1)
 		throw(std::runtime_error("listen() failed"));
-		
 	NewPoll.fd = _serverSocket;
 	NewPoll.events = POLLIN;
 	NewPoll.revents = 0;
 	fds.push_back(NewPoll);
 }
 
-void Server::ServerInit(int port, std::string pass)
+void Server::ServerInit()
 {
-	this->_port = port;
-	this->_password = pass;
 	SerSocket();
 	std::cout << GREEN << "Server " << _serverSocket << " connected" << WHITE << std::endl;
 	std::cout << YELLOW << "Waiting to accept connection...\n" << WHITE;
@@ -215,7 +237,14 @@ void Server::ReceiveNewData(int fd)
 			return;
 		tmp = truncBuffEnd(buff);
 		cmd = splitBuffCommand(tmp);
-		parseCommand(fd, cmd);
+		if (!cmd.empty())
+        {
+            parseCommand(fd, cmd);
+        }
+        else
+        {
+            std::cerr << "Error: cmd is empty" << std::endl;
+        }
 	}
 }
 

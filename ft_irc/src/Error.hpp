@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Error.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mneri <mneri@student.42.fr>                +#+  +:+       +#+        */
+/*   By: shhuang <dsheng1993@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 16:22:24 by mneri             #+#    #+#             */
-/*   Updated: 2024/05/23 17:54:06 by mneri            ###   ########.fr       */
+/*   Updated: 2024/05/28 23:10:50 by shhuang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 #include <iostream>
 #include "Channel.hpp"
 #include "Utils.hpp"
+#include "Client.hpp"
 
+class Client;
 void sendMsg(Client *client, std::string msg);
 
 // CHANNEL ERROR //
@@ -33,6 +35,7 @@ void ERR_ERRONEUSNICKNAME(Client *client, std::string nick);
 void ERR_NONICKNAMEGIVEN(Client *client);
 void ERR_NICKNAMEINUSE(Client *client, std::string nick);
 void ERR_NOTREGISTERED(Client *client);
+void ERR_UNKNOWNCOMMAND(Client* client, const std::string& cmd);
 void ERR_NOSUCHCHANNEL(Client *client, std::string channel);
 void ERR_TOOMANYCHANNELS(Client *client, std::string channel);
 void ERR_BADCHANNELKEY(Client *client, std::string channel);

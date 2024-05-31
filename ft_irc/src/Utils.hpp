@@ -6,7 +6,7 @@
 /*   By: shhuang <dsheng1993@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:40:46 by mneri             #+#    #+#             */
-/*   Updated: 2024/05/26 00:21:50 by shhuang          ###   ########.fr       */
+/*   Updated: 2024/05/28 22:49:04 by shhuang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,5 @@
 #define YELLOW     "\033[33m"
 #define WHITE      "\033[37m"
 
-int checkPort(char *port);
-bool isValidNick(std::string nick);
+int checkPort(int port);
+// bool isValidNick(std::string nick);
