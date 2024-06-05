@@ -6,7 +6,7 @@
 /*   By: shhuang <dsheng1993@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 16:32:20 by mneri             #+#    #+#             */
-/*   Updated: 2024/06/01 00:57:01 by shhuang          ###   ########.fr       */
+/*   Updated: 2024/06/01 19:55:40 by shhuang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ Server::Server(const int &port, char *pass) : _port(port), _password(pass)
 		{
 			signal(SIGINT, Server::SignalHandler);
 			signal(SIGQUIT, Server::SignalHandler);
+			signal(SIGTSTP, Server::SignalHandler);
 			ServerInit();
 		}
 		catch(const std::exception& e)
